@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway Form with Razorpay</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Enter Payment Details</h2>
+
+    <form id="paymentForm">
+        <label for="amount">Amount:</label><br>
+        <input type="text" id="amount" name="amount" placeholder="Enter amount" required><br>
+
+        <input type="button" value="Pay Now" onclick="payWithRazorpay()">
+    </form>
+</div>
+
+<script>
+    function payWithRazorpay() {
+        var amount = document.getElementById("amount").value;
+
+        var options = {
+            key: 'rzp_live_4gndVBsBGk9piJ',
+            amount: amount * 100, // Amount is in currency subunits. Thus, 100 refers to 100 paise or 1 rupee.
+            currency: 'INR',
+            name: 'Your Company Name',
+            description: 'Payment for your service',
+            image: 'https://your-company-logo.png', // Optional
+            handler: function (response) {
+                alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+                // Handle the payment success response here
+            },
+            prefill: {
+                name: 'Your Name',
+                email: 'your.email@example.com',
+                contact: '1234567890'
+            },
+            theme: {
+                color: '#3399cc'
+            }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+    }
+</script>
+
+</body>
+</html>
